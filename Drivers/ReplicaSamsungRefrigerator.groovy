@@ -25,7 +25,7 @@ import org.json.JSONObject
 import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
 
-def driverVer() { return "1.0-1" }
+def driverVer() { return "1.0-2" }
 def appliance() { return "ReplicaSamsungRefrigerator" }
 
 metadata {
@@ -64,6 +64,11 @@ metadata {
 		attribute "waterFilterStatus", "string"
 		attribute "waterFilterUsage", "string"
 		command "resetWaterFilter"
+		//	sabbathMode
+		capability "Sabbath Mode"
+		attribute "status", "string"
+		command "setSabbathMode", [[ name: "Sabbath Mode", constraints: ["on", "off"], type: "ENUM"]]
+
 	}
 	preferences {
 	}
@@ -176,7 +181,8 @@ def designCapabilities() {
 	return [
 		"contactSensor", "refresh", "refrigeration", "temperatureMeasurement",
 		"thermostatCoolingSetpoint", "custom.deodorFilter", "custom.fridgeMode",
-		"custom.waterFilter", "samsungce.powerCool", "samsungce.powerFreeze"
+		"custom.waterFilter", "samsungce.powerCool", "samsungce.powerFreeze", 
+		"samsungce.sabbathMode"
 	]
 }
 
@@ -418,6 +424,14 @@ def resetWaterFilter() {
 		logInfo("resetWaterFilter")
 	} else {
 		logWarn("resetWaterFilter: Device does not support resetWaterFilter")
+	}
+}
+
+//	===== Sabbath Mode
+def setSabbathMode(onOff) {
+	if (state.deviceCapabilities.contains("samsungce.sabbathMode")) {
+		sendRawCommand("main", "samsungce.sabbathMode", onOff)
+		logInfo("setSabbathMode: ${onOff}")
 	}
 }
 
