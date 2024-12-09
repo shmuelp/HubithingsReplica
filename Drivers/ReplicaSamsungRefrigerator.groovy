@@ -65,10 +65,8 @@ metadata {
 		attribute "waterFilterUsage", "string"
 		command "resetWaterFilter"
 		//	sabbathMode
-		capability "Sabbath Mode"
-		attribute "status", "string"
+		attribute "sabbathMode", "string"
 		command "setSabbathMode", [[ name: "Sabbath Mode", constraints: ["on", "off"], type: "ENUM"]]
-
 	}
 	preferences {
 	}
@@ -290,6 +288,13 @@ def parseEvent(event) {
 					parseCorrect([capability: event.capability, attribute: attribute, 
 								  value: event.value, unit: event.unit])
 					break
+                case "status":
+                    def attribute = "sabbathMode"
+                    if (event.capability == "samsungce.sabbathMode") {
+                        parseCorrect([capability: event.capability, attribute: attribute,
+                                      value: event.value, unit: event.unit])
+                    }
+                    break
 				case "deodorFilterLastResetDate":
 				case "deodorFilterCapacity":
 				case "deodorFilterResetType":
