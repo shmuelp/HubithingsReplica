@@ -17,6 +17,8 @@ Changes:
 a.	Changed link to help file.
 b.	Added logging prefs to library logging.
 d.	Changed sendRawCommand to use dataValue replica vice description.
+1.0-2:
+a.	Added support for sabbath mode
 
 Issues with this driver: Contact davegut via Private Message on the
 Hubitat Community site: https://community.hubitat.com/
